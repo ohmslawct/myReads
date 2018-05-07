@@ -220,9 +220,9 @@ render(){
         </div>
       </div>
 
-      <div className="open-search">
-        <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
-      </div>
+      <Link className="open-search" to="/search">Search </Link>
+
+
 
 
 
