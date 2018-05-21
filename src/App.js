@@ -10,7 +10,6 @@ import Button from '@material-ui/core/Button'
 import { withCookies, Cookies } from 'react-cookie';
 import { instanceOf } from 'prop-types';
 
-
 class App extends Component {
 
 static propTypes = {
@@ -33,18 +32,11 @@ componentWillMount() {
 componentDidMount(){
   BooksAPI.getAll().then((bookShelf)=> {
     this.setState({ bookShelf : bookShelf })
-    console.log(bookShelf);
-
   })
 }
 
-
 mySearch(searchQuery){
   BooksAPI.search(searchQuery).then( (searchResult) => {
-
-  console.log("Search Query", searchQuery);
-  console.log("Search Result", searchResult);
-
 
     if( typeof(searchResult) === "undefined"){
         console.log("My Searchy Says Nothing Found");
@@ -137,8 +129,6 @@ return (
   </div>
 
 )}/>
-
-
 
       </div> // className App
     ) // return
