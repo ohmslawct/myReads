@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import serializeForm from 'form-serialize'
 import PropTypes from 'prop-types'
 
 const propTypes = {
@@ -19,7 +18,7 @@ if(myRandomishNumber % 2 == "0"){
   myPlaceholder = "Searchy Book Now?";
 }
 if(myRandomishNumber >= "90"){
-    myPlaceholder = "Readl";
+    myPlaceholder = "Search, Searchy?";
 }
 
 
@@ -41,21 +40,22 @@ handleSubmit = (e) =>{
     //  console.log("My Query: ", query);
       this.props.mySearch(query);
     }
-
     this.setState({ query : query })
 }
 
 
 handleMove = (e) =>{
     let bookId = e.target.name;
-    let shelfInfo = e.target.value;
-    this.props.addToShelf({bookId, shelfInfo});
+    let shelf = e.target.value;
+    this.props.addToShelf({bookId, shelf});
+	//	this.setState({state : this.state});
+
 }
 
 render(){
 
 let searchArray = this.props.searchArray;
-console.log("Search Array", searchArray);
+
 
     return (
       <div>

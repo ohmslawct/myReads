@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import serializeForm from 'form-serialize'
+import Button from '@material-ui/core/Button'
+
 
 
 class ListBooks extends Component {
@@ -11,7 +12,10 @@ handleMove = (e) =>{
     this.props.changeShelf( {bookId, shelfInfo});
 };
 
+
+
 render(){
+
 
   let bookShelf = this.props.bookShelf;
 
@@ -32,7 +36,7 @@ render(){
       <div>
 
       <div className="list-books-title">
-        <h1>White Paper Reads</h1>
+        <h1>Can Has Reading?</h1>
       </div>
 
       <div className="list-books-content">
@@ -162,10 +166,6 @@ render(){
                         </li>
                 ))}
 
-
-
-
-
               </ol>
             </div>
 
@@ -177,15 +177,12 @@ render(){
         </div>
       </div>
 
-      <Link className="open-search" to="/search">Search </Link>
 
-
-
-
-
-
-
-
+      <Link className="open-search" to="/search">
+          <Button variant="raised" color="primary">
+            Hey Searchy...
+          </Button>
+      </Link>
 
 
 

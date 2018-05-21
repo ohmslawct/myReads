@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-
 import './App.css';
 import ListBooks from './listBooks';
 import SearchBooks from './searchBooks';
 import * as BooksAPI from './BooksAPI';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import Button from '@material-ui/core/Button'
+import { withCookies, Cookies } from 'react-cookie';
+import { instanceOf } from 'prop-types';
+
 
 class App extends Component {
+
+static propTypes = {
+    cookies: instanceOf(Cookies).isRequired
+};
 
 state = {
   screen : '/',
@@ -16,6 +24,10 @@ state = {
   myCurrentlyReadingArray : [],
   myWantToReadArray : [],
   myReadArray : []
+}
+
+componentWillMount() {
+  const { cookies } = this.props;
 }
 
 componentDidMount(){
@@ -70,20 +82,27 @@ this.setState(state => ({
 }))
 }
 
+// change value of 'shelf' for a book to reflect the correct bookshelf description. Add the book to the user's shelf.
 addToShelf(info){
 
-let bookToAdd = this.state.searchArray.map( (b)=> {
-  if (b.id === info.bookId){
-    b.shelf = info.shelfInfo;
-    
-  }
-  return b;
-})
+    let bookToAdd = this.state.searchArray.filter( (b)=> {
+      return b.id === info.bookId
+    });
 
-this.setState(state => ({
-  bookShelf : this.state.bookShelf.concat(bookToAdd)
-}))
+    // change the shelf status for the newly added book
+    bookToAdd[0].shelf = info.shelf;
+
+    // add the newly selected book to the user's bookshelf
+    if (this.state.bookShelf.indexOf(bookToAdd[0].id) == -1){
+      this.state.bookShelf.push(bookToAdd[0])
+    }
+
+    // update the bookshelf state
+    this.setState(state => ({
+      bookShelf : this.state.bookShelf
+    }))
 }
+
 
 
 render() {

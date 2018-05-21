@@ -12,11 +12,13 @@ body, .app {
 
 .list-books-title {
   padding: 10px 0;
-  background: #2e7c31;
+  background: #7c4dff;
+  font-family: Lobster;
   text-align: center;
 }
 .list-books-title h1 {
   font-weight: 400;
+  font-family: Lobster;
   margin: 0;
   color: white;
 }
