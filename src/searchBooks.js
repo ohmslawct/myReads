@@ -10,7 +10,7 @@ const propTypes = {
 // Randomly choose placholder text
 let myPlaceholder;
 let myRandomishNumber = Math.floor(Math.random() * 100);
-console.log(myRandomishNumber);
+// console.log(myRandomishNumber);
 
 if (myRandomishNumber % 2 == "0") {
   myPlaceholder = "Hey Searchy";
@@ -21,6 +21,8 @@ if (myRandomishNumber >= "90") {
   myPlaceholder = "Search, Searchy?";
 }
 
+
+
 // main code
 
 class SearchBooks extends Component {
@@ -28,6 +30,16 @@ class SearchBooks extends Component {
   state = {
     query: ''
   }
+
+
+	checkBookImage = (bookImageUrl) =>{
+		if (bookImageUrl === ""){
+			return "./icons/thumbnail-not-found.jpg"
+		} else {
+			return bookImageUrl;
+		}
+	}
+
 
   handleSubmit = (e) => {
     //  console.log("Submitting Search Form");
@@ -47,8 +59,8 @@ class SearchBooks extends Component {
     let shelf = e.target.value;
     this.props.addToShelf({bookId, shelf});
     //	this.setState({state : this.state});
-
   }
+
 
   render() {
 
@@ -84,7 +96,7 @@ class SearchBooks extends Component {
                         <div className="book-cover" style={{
                             width: 128,
                             height: 193,
-                            backgroundImage: `url(${book.imageLinks.smallThumbnail})`
+                            backgroundImage: `url(${this.checkBookImage(book.imageLinks.smallThumbnail)})`
                           }}></div>
                         <div className="book-shelf-changer">
                           <select name={book.id} onChange={this.handleMove}>

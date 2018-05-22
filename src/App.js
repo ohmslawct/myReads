@@ -4,9 +4,7 @@ import './App.css';
 import ListBooks from './listBooks';
 import SearchBooks from './searchBooks';
 import * as BooksAPI from './BooksAPI';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import Button from '@material-ui/core/Button'
 import { withCookies, Cookies } from 'react-cookie';
 import { instanceOf } from 'prop-types';
 
@@ -25,9 +23,6 @@ state = {
   myReadArray : []
 }
 
-componentWillMount() {
-  const { cookies } = this.props;
-}
 
 componentDidMount(){
   BooksAPI.getAll().then((bookShelf)=> {
@@ -39,13 +34,13 @@ mySearch(searchQuery){
   BooksAPI.search(searchQuery).then( (searchResult) => {
 
     if( typeof(searchResult) === "undefined"){
-        console.log("My Searchy Says Nothing Found");
+      //  console.log("My Searchy Says Nothing Found");
         this.setState(state => ({
           searchArray : []
         }))
 
     } else if (searchResult.error==="empty query"){
-      console.log("Empty");
+  //    console.log("Empty");
       this.setState(state => ({
         searchArray : []
       }))
@@ -56,11 +51,13 @@ mySearch(searchQuery){
       }))
     }
   }).catch( (error) => {
-    console.log("ERROR", error);
+  //  console.log("ERROR", error);
   })
 }
 
 changeShelf(info){
+
+//console.log(this.state.bookShelf);
 
 let filtered = this.state.bookShelf.map( (b)=> {
   if (b.id === info.bookId){
