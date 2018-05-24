@@ -46,6 +46,15 @@ mySearch(searchQuery){
       }))
 
     } else {
+
+      searchResult.forEach(book =>  {
+          book.shelf = "None";
+          // console.log(book);
+          // console.log(searchResult);
+      }
+
+      )
+
       this.setState(state => ({
         searchArray : searchResult
       }))

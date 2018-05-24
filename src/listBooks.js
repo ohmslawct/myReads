@@ -10,12 +10,11 @@ class ListBooks extends Component {
     this.props.changeShelf({bookId, shelfInfo});
   };
 
-
-  checkBookImage = (bookImageUrl) =>{
-		if (bookImageUrl === ""){
-			return "./icons/thumbnail-not-found.jpg"
+  checkBookImage = (book) =>{
+		if (book.imageLinks === undefined){
+      return "./icons/thumbnail-not-found.png";
 		} else {
-			return bookImageUrl;
+      return book.imageLinks.smallThumbnail;
 		}
 	}
 
@@ -55,7 +54,7 @@ class ListBooks extends Component {
                         <div className="book-cover" style={{
                             width: 128,
                             height: 193,
-                            backgroundImage: `url(${this.checkBookImage(book.imageLinks.smallThumbnail)})`
+                            backgroundImage: `url(${this.checkBookImage(book)})`
                           }}></div>
                         <div className="book-shelf-changer">
                           <div className="currentlyReading">
@@ -92,7 +91,7 @@ class ListBooks extends Component {
                         <div className="book-cover" style={{
                             width: 128,
                             height: 193,
-                            backgroundImage: `url(${this.checkBookImage(book.imageLinks.smallThumbnail)})`
+                            backgroundImage: `url(${this.checkBookImage(book)})`
                           }}></div>
 
                         <div className="book-shelf-changer">
@@ -131,7 +130,7 @@ class ListBooks extends Component {
                         <div className="book-cover" style={{
                             width: 128,
                             height: 193,
-                            backgroundImage: `url(${this.checkBookImage(book.imageLinks.smallThumbnail)})`
+                            backgroundImage: `url(${this.checkBookImage(book)})`
                           }}></div>
                         <div className="book-shelf-changer">
                           <div className="read">

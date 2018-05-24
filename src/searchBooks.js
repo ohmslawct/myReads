@@ -21,8 +21,6 @@ if (myRandomishNumber >= "90") {
   myPlaceholder = "Search, Searchy?";
 }
 
-
-
 // main code
 
 class SearchBooks extends Component {
@@ -31,12 +29,11 @@ class SearchBooks extends Component {
     query: ''
   }
 
-
-	checkBookImage = (bookImageUrl) =>{
-		if (bookImageUrl === ""){
-			return "./icons/thumbnail-not-found.jpg"
+  checkBookImage = (book) =>{
+		if (book.imageLinks === undefined){
+      return "./icons/thumbnail-not-found.png";
 		} else {
-			return bookImageUrl;
+      return book.imageLinks.smallThumbnail;
 		}
 	}
 
@@ -96,7 +93,7 @@ class SearchBooks extends Component {
                         <div className="book-cover" style={{
                             width: 128,
                             height: 193,
-                            backgroundImage: `url(${this.checkBookImage(book.imageLinks.smallThumbnail)})`
+                            backgroundImage: `url(${this.checkBookImage(book)})`
                           }}></div>
                         <div className="book-shelf-changer">
                           <select name={book.id} onChange={this.handleMove}>
