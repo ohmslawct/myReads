@@ -58,7 +58,7 @@ class ListBooks extends Component {
                           }}></div>
                         <div className="book-shelf-changer">
                           <div className="currentlyReading">
-                            <select name={book.id} onChange={this.handleMove}>
+                            <select name={book.id} onChange={this.handleMove} value="none">
                               <option value="none" disabled="disabled">Move to...</option>
                               <option value="currentlyReading" selected="selected">Currently Reading</option>
                               <option value="wantToRead">Want to Read</option>
@@ -160,7 +160,7 @@ class ListBooks extends Component {
 
       <Link className="open-search" to="/search">
         <Button variant="raised" color="primary">
-          Hey Searchy...
+           Hey Searchy...
         </Button>
       </Link>
 

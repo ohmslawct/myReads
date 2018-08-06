@@ -4,15 +4,8 @@ import './App.css';
 import ListBooks from './listBooks';
 import SearchBooks from './searchBooks';
 import * as BooksAPI from './BooksAPI';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import { withCookies, Cookies } from 'react-cookie';
-import { instanceOf } from 'prop-types';
 
 class App extends Component {
-
-static propTypes = {
-    cookies: instanceOf(Cookies).isRequired
-};
 
 state = {
   screen : '/',
@@ -34,25 +27,19 @@ mySearch(searchQuery){
   BooksAPI.search(searchQuery).then( (searchResult) => {
 
     if( typeof(searchResult) === "undefined"){
-      //  console.log("My Searchy Says Nothing Found");
         this.setState(state => ({
           searchArray : []
         }))
 
     } else if (searchResult.error==="empty query"){
-  //    console.log("Empty");
       this.setState(state => ({
         searchArray : []
       }))
 
     } else {
-
       searchResult.forEach(book =>  {
           book.shelf = "None";
-          // console.log(book);
-          // console.log(searchResult);
       }
-
       )
 
       this.setState(state => ({
@@ -60,19 +47,17 @@ mySearch(searchQuery){
       }))
     }
   }).catch( (error) => {
-  //  console.log("ERROR", error);
+    console.log("ERROR", error);
   })
 }
 
 changeShelf(info){
 
-//console.log(this.state.bookShelf);
-
-let filtered = this.state.bookShelf.map( (b)=> {
-  if (b.id === info.bookId){
-    b.shelf = info.shelfInfo;
+let filtered = this.state.bookShelf.map( (book)=> {
+  if (book.id === info.bookId){
+    book.shelf = info.shelfInfo;
   }
-  return b;
+  return book;
 })
 
 this.setState(state => ({
@@ -91,7 +76,7 @@ addToShelf(info){
     bookToAdd[0].shelf = info.shelf;
 
     // add the newly selected book to the user's bookshelf
-    if (this.state.bookShelf.indexOf(bookToAdd[0].id) == -1){
+    if (this.state.bookShelf.indexOf(bookToAdd[0].id) === -1){
       this.state.bookShelf.push(bookToAdd[0])
     }
 

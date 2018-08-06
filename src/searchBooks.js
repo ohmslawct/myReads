@@ -2,17 +2,14 @@ import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-const propTypes = {
-  bookShelf: PropTypes.array.isRequired,
-  query: PropTypes.string.isRequired
-};
+
 
 // Randomly choose placholder text
 let myPlaceholder;
 let myRandomishNumber = Math.floor(Math.random() * 100);
 // console.log(myRandomishNumber);
 
-if (myRandomishNumber % 2 == "0") {
+if (myRandomishNumber % 2 === "0") {
   myPlaceholder = "Hey Searchy";
 } else {
   myPlaceholder = "Searchy Book Now?";
@@ -39,13 +36,9 @@ class SearchBooks extends Component {
 
 
   handleSubmit = (e) => {
-    //  console.log("Submitting Search Form");
-    //  e.preventDefault();
-    //  const values = serializeForm(e.target, {hash : true})
     let query = e.target.value;
 
     if (this.props.mySearch) {
-      //  console.log("My Query: ", query);
       this.props.mySearch(query);
     }
     this.setState({query: query})
@@ -55,7 +48,6 @@ class SearchBooks extends Component {
     let bookId = e.target.name;
     let shelf = e.target.value;
     this.props.addToShelf({bookId, shelf});
-    //	this.setState({state : this.state});
   }
 
 
@@ -82,7 +74,7 @@ class SearchBooks extends Component {
       <div className="list-books-content">
         <div>
           <div className="bookshelf">
-            <h2 className="bookshelf-title"></h2>
+            <h2 className="bookshelf-title">Resultz</h2>
             <div className="bookshelf-books">
               <ol className="books-grid">
 
@@ -96,12 +88,12 @@ class SearchBooks extends Component {
                             backgroundImage: `url(${this.checkBookImage(book)})`
                           }}></div>
                         <div className="book-shelf-changer">
-                          <select name={book.id} onChange={this.handleMove}>
+                          <select name={book.id} onChange={this.handleMove} value="none">
                             <option value="none" disabled="disabled">Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
                             <option value="read">Read</option>
-                            <option value="none" selected="selected">None</option>
+      
                           </select>
                         </div>
                       </div>
@@ -121,5 +113,9 @@ class SearchBooks extends Component {
     </div>)
   }
 }
+
+SearchBooks.propTypes = {
+  bookShelf: PropTypes.array.isRequired
+};
 
 export default SearchBooks
