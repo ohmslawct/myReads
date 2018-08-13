@@ -5,10 +5,17 @@ import Button from '@material-ui/core/Button'
 class ListBooks extends Component {
 
   handleMove = (e) => {
-    let bookId = e.target.name;
-    let shelfInfo = e.target.value;
-    this.props.changeShelf({bookId, shelfInfo});
-  };
+
+    let shelf = e.target.value;
+    console.log("E is:", e, e.target, e.target.value)
+
+
+let book = this.props.bookShelf.filter( (b) => b.id === e.target.name );
+ book = book[0];
+
+this.props.changeShelf({book, shelf});
+
+};
 
   checkBookImage = (book) =>{
 		if (book.imageLinks === undefined){

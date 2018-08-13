@@ -7,124 +7,143 @@ import * as BooksAPI from './BooksAPI';
 
 class App extends Component {
 
-state = {
-  screen : '/',
-  bookShelf : [],
-  searchArray : [],
-  myCurrentlyReadingArray : [],
-  myWantToReadArray : [],
-  myReadArray : []
-}
-
-
-componentDidMount(){
-  BooksAPI.getAll().then((bookShelf)=> {
-    this.setState({ bookShelf : bookShelf })
-  })
-}
-
-mySearch(searchQuery){
-  BooksAPI.search(searchQuery).then( (searchResult) => {
-
-    if( typeof(searchResult) === "undefined"){
-        this.setState(state => ({
-          searchArray : []
-        }))
-
-    } else if (searchResult.error==="empty query"){
-      this.setState(state => ({
-        searchArray : []
-      }))
-
-    } else {
-      searchResult.forEach(book =>  {
-          book.shelf = "None";
-      }
-      )
-
-      this.setState(state => ({
-        searchArray : searchResult
-      }))
+    state = {
+      screen : '/',
+      bookShelf : [],
+      searchArray : [],
+      myCurrentlyReadingArray : [],
+      myWantToReadArray : [],
+      myReadArray : []
     }
-  }).catch( (error) => {
-    console.log("ERROR", error);
-  })
-}
 
-changeShelf(info){
 
-let filtered = this.state.bookShelf.map( (book)=> {
-  if (book.id === info.bookId){
-    book.shelf = info.shelfInfo;
-  }
-  return book;
-})
+    async componentDidMount(){
+      const books = await BooksAPI.getAll();
+      this.setState({bookShelf : books});
 
-this.setState(state => ({
-  bookShelf : filtered
-}))
-}
+      // old method (Keep for learning purposes)
+      // BooksAPI.getAll().then((bookShelf)=> {
+      //   this.setState({ bookShelf : bookShelf })
+      // })
+    }
 
-// change value of 'shelf' for a book to reflect the correct bookshelf description. Add the book to the user's shelf.
-addToShelf(info){
+    mySearch(searchQuery){
+      BooksAPI.search(searchQuery).then( (searchResult) => {
 
-    let bookToAdd = this.state.searchArray.filter( (b)=> {
-      return b.id === info.bookId
+        if( typeof(searchResult) === "undefined"){
+            this.setState(state => ({
+              searchArray : []
+            }))
+
+        } else if (searchResult.error==="empty query"){
+          this.setState(state => ({
+            searchArray : []
+          }))
+
+        } else {
+          searchResult.forEach(book =>  {
+              book.shelf = "None";
+          }
+          )
+
+          this.setState(state => ({
+            searchArray : searchResult
+          }))
+        }
+      }).catch( (error) => {
+        console.log("ERROR", error);
+      })
+    }
+
+    changeShelf(info){
+
+    let book = info.book;
+    let shelf = info.shelf;
+
+
+    BooksAPI.update(book, shelf).then( () => {
+      console.log("Updated Shelf");
     });
 
-    // change the shelf status for the newly added book
-    bookToAdd[0].shelf = info.shelf;
+    BooksAPI.getAll().then((bookShelf)=> {
+      console.log("Updating State");
+      this.setState({ bookShelf : bookShelf })
+    }).then( () => {
+      console.log("Updated State Bookshelf");
+    })
 
-    // add the newly selected book to the user's bookshelf
-    if (this.state.bookShelf.indexOf(bookToAdd[0].id) === -1){
-      this.state.bookShelf.push(bookToAdd[0])
+
+
+    } // changeShelf
+
+
+
+
+    // change value of 'shelf' for a book to reflect the correct bookshelf description. Add the book to the user's shelf.
+
+
+
+    addToShelf(info){
+
+        let book = info.book;
+        let shelf = info.shelf;
+
+        BooksAPI.update(book, shelf).then( () => {
+          console.log("Updated Shelf");
+        });
+
+        BooksAPI.getAll().then((bookShelf)=> {
+          console.log("Updating State");
+          this.setState({ bookShelf : bookShelf })
+        }).then( () => {
+          console.log("Updated State Bookshelf");
+        })
     }
 
-    // update the bookshelf state
-    this.setState(state => ({
-      bookShelf : this.state.bookShelf
-    }))
-}
 
 
 
-render() {
-return (
 
-<div className="app">
+    render() {
+    return (
 
-<Route exact path = "/" render={() =>(
-  <div className="list-books">
-    <ListBooks
-      bookShelf = {this.state.bookShelf}
-      changeShelf = {(info) => {
-        this.changeShelf(info)
-      }}
-    />
-  </div>
-)}/>
+    <div className="app">
+
+    <Route exact path = "/" render={() =>(
+      <div className="list-books">
+        <ListBooks
+          bookShelf = {this.state.bookShelf}
+          changeShelf = {(info) => {
+            this.changeShelf(info)
+          }}
+        />
+      </div>
+    )}/>
 
 
-<Route path = "/search" render={() =>(
-  <div className="search-books">
-    <SearchBooks
-    bookShelf = {this.state.bookShelf}
-    searchArray = {this.state.searchArray}
-    mySearch = {(searchQuery) =>{
-    this.mySearch(searchQuery)
-    }}
-    addToShelf = { (info) => {
-      this.addToShelf(info)
-    }}
-    />
-  </div>
+    <Route path = "/search" render={() =>(
+      <div className="search-books">
+        <SearchBooks
+        bookShelf = {this.state.bookShelf}
+        searchArray = {this.state.searchArray}
+        mySearch = {(searchQuery) =>{
+        this.mySearch(searchQuery)
+        }}
+        addToShelf = { (info) => {
+          this.addToShelf(info)
+        }}
+        changeShelf = { (info) => {
+          this.changeShelf(info)
+        }}
+        />
+      </div>
 
-)}/>
+    )}/>
 
-      </div> // className App
-    ) // return
-  } // render
-} // class BookShop
+          </div> // className App
+        ) // return
+      } // render
+    } // class BookShop
 
 
 export default App;

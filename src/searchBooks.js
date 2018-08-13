@@ -35,20 +35,33 @@ class SearchBooks extends Component {
 	}
 
 
-  handleSubmit = (e) => {
-    let query = e.target.value;
+handleSubmit = (e) => {
+  let query = e.target.value;
 
-    if (this.props.mySearch) {
-      this.props.mySearch(query);
-    }
-    this.setState({query: query})
+  if (this.props.mySearch) {
+    this.props.mySearch(query);
   }
+  this.setState({query: query})
+}
 
-  handleMove = (e) => {
-    let bookId = e.target.name;
+
+
+handleMove = (e) => {
     let shelf = e.target.value;
-    this.props.addToShelf({bookId, shelf});
-  }
+    let book = this.props.searchArray.filter( (b) => {
+      if (b.id === e.target.name){
+        return b;
+      }
+    }
+     );
+
+book = book[0];
+this.props.addToShelf({book, shelf});
+
+} // handleMove
+
+
+
 
 
   render() {
@@ -88,12 +101,16 @@ class SearchBooks extends Component {
                             backgroundImage: `url(${this.checkBookImage(book)})`
                           }}></div>
                         <div className="book-shelf-changer">
-                          <select name={book.id} onChange={this.handleMove} value="none">
+                          <select name={book.id} onChange={this.handleMove} defaultValue={
+                            () => {
+                            console.log('Value: ', book.shelf)
+                            return book.shelf}
+                        }>
                             <option value="none" disabled="disabled">Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
                             <option value="read">Read</option>
-      
+                            <option value="none">None</option>
                           </select>
                         </div>
                       </div>
