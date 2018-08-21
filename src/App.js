@@ -41,13 +41,27 @@ class App extends Component {
           }))
 
         } else {
+
           searchResult.forEach(book =>  {
-              book.shelf = "None";
+                  book.shelf = "None";
+                }
+              )
+
+          searchResult.forEach(book =>  {
+              this.state.bookShelf.filter( (b) => {
+                if (book.id === b.id){
+                  book.shelf = b.shelf;
+                  return null;
+                } else{
+                  return null;
+                }
+              })
           }
           )
 
           this.setState(state => ({
             searchArray : searchResult
+
           }))
         }
       }).catch( (error) => {
@@ -60,17 +74,29 @@ class App extends Component {
     let book = info.book;
     let shelf = info.shelf;
 
+    // update Books api
 
     BooksAPI.update(book, shelf).then( () => {
-      console.log("Updated Shelf");
+      //console.log("Updated Shelf");
+            // update bookshelf locally
+            let updatedShelf = this.state.bookShelf.map( (b) =>{
+                if (b.id === book.id){
+                  b.shelf = shelf;
+                }
+                return b;
+              });
+              this.setState( {bookShelf : updatedShelf });
     });
 
-    BooksAPI.getAll().then((bookShelf)=> {
-      console.log("Updating State");
-      this.setState({ bookShelf : bookShelf })
-    }).then( () => {
-      console.log("Updated State Bookshelf");
-    })
+
+    // Please retain commented code for educational purposes.
+
+    // BooksAPI.getAll().then((bookShelf)=> {
+    //   console.log("Updating State");
+    //   this.setState({ bookShelf : bookShelf })
+    // }).then( () => {
+    //   console.log("Updated State Bookshelf");
+    // })
 
 
 
@@ -89,19 +115,25 @@ class App extends Component {
         let shelf = info.shelf;
 
         BooksAPI.update(book, shelf).then( () => {
-          console.log("Updated Shelf");
+        //  console.log("Updated Shelf");
         });
 
-        BooksAPI.getAll().then((bookShelf)=> {
-          console.log("Updating State");
-          this.setState({ bookShelf : bookShelf })
-        }).then( () => {
-          console.log("Updated State Bookshelf");
-        })
+        // update bookshelf locally
+        this.state.bookShelf.map( (b) =>{
+            if (b.id === book.id){
+              b.shelf = shelf;
+            }
+            return b;
+          });
+
+  // Please retain commented code for educational purposes.
+        // BooksAPI.getAll().then((bookShelf)=> {
+        //   console.log("Updating State");
+        //   this.setState({ bookShelf : bookShelf })
+        // }).then( () => {
+        //   console.log("Updated State Bookshelf");
+        // })
     }
-
-
-
 
 
     render() {

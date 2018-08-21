@@ -1,13 +1,12 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types'
-
+//import { Debounce } from 'react-throttle';
 
 
 // Randomly choose placholder text
 let myPlaceholder;
 let myRandomishNumber = Math.floor(Math.random() * 100);
-// console.log(myRandomishNumber);
 
 if (myRandomishNumber % 2 === "0") {
   myPlaceholder = "Hey Searchy";
@@ -51,6 +50,8 @@ handleMove = (e) => {
     let book = this.props.searchArray.filter( (b) => {
       if (b.id === e.target.name){
         return b;
+      } else {
+        return null;
       }
     }
      );
@@ -75,7 +76,7 @@ this.props.addToShelf({book, shelf});
 
         <div className="search-books-input-wrapper">
 
-          <input onChange={this.handleSubmit} type="text" name="searchTerms" placeholder={myPlaceholder} value={this.state.query}/>
+            <input onChange={this.handleSubmit} type="text" name="searchTerms" placeholder={myPlaceholder} value={this.state.query}/>
 
         </div>
       </div>
@@ -101,17 +102,18 @@ this.props.addToShelf({book, shelf});
                             backgroundImage: `url(${this.checkBookImage(book)})`
                           }}></div>
                         <div className="book-shelf-changer">
-                          <select name={book.id} onChange={this.handleMove} defaultValue={
-                            () => {
-                            console.log('Value: ', book.shelf)
-                            return book.shelf}
-                        }>
-                            <option value="none" disabled="disabled">Move to...</option>
+                          <select name={book.id} onChange={this.handleMove} defaultValue={book.shelf}>
+                            <option disabled="disabled">Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
                             <option value="read">Read</option>
-                            <option value="none">None</option>
+                            <option value="None">None</option>
                           </select>
+
+
+
+
+
                         </div>
                       </div>
                       <div className="book-title">{book.name}

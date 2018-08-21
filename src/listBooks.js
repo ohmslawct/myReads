@@ -7,7 +7,7 @@ class ListBooks extends Component {
   handleMove = (e) => {
 
     let shelf = e.target.value;
-    console.log("E is:", e, e.target, e.target.value)
+  //  console.log("E is:", e, e.target, e.target.value)
 
 
 let book = this.props.bookShelf.filter( (b) => b.id === e.target.name );
@@ -65,9 +65,9 @@ this.props.changeShelf({book, shelf});
                           }}></div>
                         <div className="book-shelf-changer">
                           <div className="currentlyReading">
-                            <select name={book.id} onChange={this.handleMove} value="none">
-                              <option value="none" disabled="disabled">Move to...</option>
-                              <option value="currentlyReading" selected="selected">Currently Reading</option>
+                            <select name={book.id} onChange={this.handleMove} defaultValue="currentlyReading">
+                              <option disabled="disabled">Move to...</option>
+                              <option value="currentlyReading">Currently Reading</option>
                               <option value="wantToRead">Want to Read</option>
                               <option value="read">Read</option>
                               <option value="none">None</option>
@@ -103,10 +103,10 @@ this.props.changeShelf({book, shelf});
 
                         <div className="book-shelf-changer">
                           <div className="wantToRead">
-                            <select name={book.id} onChange={this.handleMove}>
-                              <option value="none" disabled="disabled">Move to...</option>
+                            <select name={book.id} onChange={this.handleMove} defaultValue="wantToRead">
+                              <option disabled="disabled">Move to...</option>
                               <option value="currentlyReading">Currently Reading</option>
-                              <option value="wantToRead" selected="selected">Want to Read</option>
+                              <option value="wantToRead">Want to Read</option>
                               <option value="read">Read</option>
                               <option value="none">None</option>
                             </select>
@@ -141,11 +141,11 @@ this.props.changeShelf({book, shelf});
                           }}></div>
                         <div className="book-shelf-changer">
                           <div className="read">
-                            <select name={book.id} onChange={this.handleMove}>
-                              <option value="none" disabled="disabled">Move to...</option>
+                            <select name={book.id} onChange={this.handleMove} defaultValue="read">
+                              <option disabled="disabled">Move to...</option>
                               <option value="currentlyReading">Currently Reading</option>
                               <option value="wantToRead">Want to Read</option>
-                              <option value="read" selected="selected">Read</option>
+                              <option value="read">Read</option>
                               <option value="none">None</option>
                             </select>
                           </div>
