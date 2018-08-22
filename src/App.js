@@ -63,6 +63,13 @@ class App extends Component {
     let book = info.book;
     let shelf = info.shelf;
 
+    let onShelf = this.state.bookShelf.filter( (b) => (b.id === book.id) );
+
+    if (onShelf == "") {
+      var joined = this.state.bookShelf.concat(info.book);
+      this.setState({ bookShelf: joined });
+    }
+
     BooksAPI.update(book, shelf).then(() => {
       //console.log("Updated Shelf");
       // update bookshelf locally
