@@ -10,17 +10,21 @@ body, .app {
 
 h2 {
     font-family: Lobster;
-    
+
 }
 /* main page */
 
 
 .list-books-title {
   padding: 5px 0;
-  background: #ff1616;
   font-family: Lobster;
   text-align: center;
-  box-shadow: 0px 0px 20px 20px #ff1616;
+  background: linear-gradient(to left, #ff1616 50%, black 50%);
+  background-size: 200% 100%;
+  background-position:left bottom;
+  transition:all 200s ease;
+  box-shadow: 0px 0px 20px 20px black;
+
 }
 .list-books-title h1 {
   font-weight: 400;
